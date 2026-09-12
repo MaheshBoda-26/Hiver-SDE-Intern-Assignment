@@ -1,0 +1,30 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Environment Variables & Secrets
+.env
+*.env.local
+
+# Project Data
+data/*.csv
+!data/.gitkeep
+
+# IDE / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Testing & Jupyter
+.pytest_cache/
+.coverage
+htmlcov/
+.ipynb_checkpoints/
