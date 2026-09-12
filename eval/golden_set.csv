@@ -1,13 +1,3 @@
-id,query,expected_intent,expected_escalate,expected_reason,reference_answer
-1,"Where is my order? I ordered it 3 days ago and have not received tracking.",order_status,False,none,"Standard shipping takes 3-5 business days. You can track your package at support.example.com/track with your tracking number."
-2,"How do I get a refund for a damaged item I received?",refund_return,False,none,"Customers can request returns within 30 days of delivery. Refunds are processed to the original payment method within 5-7 business days."
-3,"I forgot my password and cannot sign into my account.",account_access,False,none,"Visit the login page and click 'Forgot Password' to receive a secure reset link via email."
-4,"Please cancel my recurring monthly subscription immediately.",cancellation,False,none,"You can cancel your subscription in Settings > Billing > Manage Subscription. Access remains active until the end of the billing cycle."
-5,"The dashboard is showing a blank screen and 500 error on Chrome.",technical_issue,False,none,"Try clearing your browser cache and cookies or testing in an incognito window. Check status.example.com for known outages."
-6,"I want to speak with a human agent right now, do not give me a bot.",escalation_request,True,explicit_human_request,"I am routing your request to our General Support team. A support specialist will assist you shortly."
-7,"Your service double billed me and if this is not resolved I will contact my lawyer to sue.",billing_subscription,True,legal_or_compliance_threat,"I am routing your request to our Legal & Risk team. A specialist will assist you shortly."
-8,"I need to track package shipment #982341.",order_status,False,none,"Please check support.example.com/track with your tracking ID #982341. Tracking updates may take up to 24 hours."
-9,"Can I return shoes if I wore them outside for two weeks?",refund_return,False,none,"Returns are accepted within 30 days of delivery, but items must be unused and in original packaging."
-10,"blah blah something something completely unrelated query xyz123",unknown,True,no_relevant_documentation,"I am routing your request to our Tier-2 Specialist team."
-11,"Let me talk to a real person please.",escalation_request,True,explicit_human_request,"Routing to our human support queue."
-12,"My 2FA phone was stolen and I cannot access my account.",account_access,True,critical_urgency_level,"Routing to security support team for identity verification."
+tweet_id,customer_text,brand_reply_text,intent,escalate,escalate_reason
+49922,"Ok @115850 let's get it sorted today. I've bought over a 100 books from u, never received a single free bookmark. 😢
+Mujhe Insaf chaiye! 😢",@127182 to provide a better shopping experience. (3/3) ^JS,delivery_delay,y,dsfsdfgsevgsdr
