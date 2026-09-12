@@ -148,23 +148,86 @@ def get_resolved_pairs(df: pd.DataFrame, brand_handle: str) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    # Locate sample TWCS dataset
-    sample_path = Path("archive/sample.csv")
-    if not sample_path.exists():
-        sample_path = Path(__file__).resolve().parent.parent / "archive" / "sample.csv"
+    import argparse
+    import sys
 
-    brand = "AppleSupport"
-    print(f"Loading TWCS dataset from: {sample_path}")
-    raw_df = load_twcs(sample_path)
-    print(f"Total dataset row count: {len(raw_df)}")
+    parser = argparse.ArgumentParser(description="Process TWCS dataset for a specific brand.")
+    parser.add_argument(
+        "brand_positional",
+        nargs="?",
+        type=str,
+        default=None,
+        help="Brand Twitter handle (e.g. 'AmazonHelp', '@AmazonHelp', 'AppleSupport')",
+    )
+    parser.add_argument(
+        "--brand",
+        "-b",
+        type=str,
+        default=None,
+        help="Brand Twitter handle (e.g. 'AmazonHelp')",
+    )
+    parser.add_argument(
+        "--data",
+        "-d",
+        type=str,
+        default=None,
+        help="Path to TWCS CSV file (auto-detects if not provided)",
+    )
+    parser.add_argument(
+        "--samples",
+        "-n",
+        type=int,
+        default=3,
+        help="Number of sample pairs to display (default: 3)",
+    )
+    args = parser.parse_args()
+
+    brand = args.brand or args.brand_positional or "AmazonHelp"
+
+    # Locate TWCS dataset
+    data_path = None
+    if args.data:
+        data_path = Path(args.data)
+        if not data_path.exists():
+            print(f"Error: Specified data path does not exist: {data_path}")
+            sys.exit(1)
+    else:
+        project_root = Path(__file__).resolve().parent.parent
+        candidates = [
+            Path("data/twcs_sample.csv"),
+            project_root / "data" / "twcs_sample.csv",
+            Path("archive/twcs/twcs_sample.csv"),
+            project_root / "archive" / "twcs" / "twcs_sample.csv",
+            Path("archive/twcs/twcs.csv"),
+            project_root / "archive" / "twcs" / "twcs.csv",
+            Path("archive/sample.csv"),
+            project_root / "archive" / "sample.csv",
+        ]
+        for candidate in candidates:
+            if candidate.exists():
+                data_path = candidate
+                break
+
+    if not data_path:
+        print("Error: Could not find any TWCS dataset file.")
+        sys.exit(1)
+
+    print(f"Loading TWCS dataset from: {data_path}")
+    raw_df = load_twcs(data_path)
+    print(f"Total dataset row count: {len(raw_df):,}")
 
     brand_df = filter_brand(raw_df, brand)
-    print(f"Filtered row count for '{brand}': {len(brand_df)}")
+    print(f"Filtered row count for '{brand}': {len(brand_df):,}")
 
     pairs_df = get_resolved_pairs(raw_df, brand)
-    print(f"Resolved pairs row count for '{brand}': {len(pairs_df)}")
+    print(f"Resolved pairs row count for '{brand}': {len(pairs_df):,}")
 
     if not pairs_df.empty:
-        print("\nFirst resolved pair preview:")
-        print(f"  [Customer] : {pairs_df['customer_tweet'].iloc[0]}")
-        print(f"  [Reply]    : {pairs_df['brand_reply'].iloc[0]}")
+        n_show = min(args.samples, len(pairs_df))
+        print(f"\nSample resolved pairs for '{brand}' (showing {n_show} of {len(pairs_df):,}):")
+        for idx in range(n_show):
+            print(f"\n--- Sample Pair #{idx + 1} ---")
+            print(f"  [Customer] : {pairs_df['customer_tweet'].iloc[idx]}")
+            print(f"  [Reply]    : {pairs_df['brand_reply'].iloc[idx]}")
+    else:
+        print(f"\nNo resolved pairs found for '{brand}'.")
