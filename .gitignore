@@ -30,3 +30,7 @@ data/*.csv
 .coverage
 htmlcov/
 .ipynb_checkpoints/
+
+# Large dataset files
+Dataset/twcs/twcs.csv
+Dataset/twcs/twcs_sample.csv

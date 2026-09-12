@@ -139,6 +139,7 @@ def get_resolved_pairs(df: pd.DataFrame, brand_handle: str) -> pd.DataFrame:
 
     pairs_df = pd.DataFrame(
         {
+            "tweet_id": merged["tweet_id"],
             "customer_tweet": merged["text_customer"],
             "brand_reply": merged["text_brand"],
         }
