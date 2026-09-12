@@ -14,14 +14,16 @@ env/
 .env
 *.env.local
 
-# Project Data
+# Large Datasets and Archive (prevents GitHub 100MB rejection)
+archive/
 data/*.csv
 !data/.gitkeep
+!eval/golden_set.csv
 
 # IDE / OS
 .DS_Store
-.idea/
 .vscode/
+.idea/
 
 # Testing & Jupyter
 .pytest_cache/
